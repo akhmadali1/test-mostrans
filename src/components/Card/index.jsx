@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import Skeleton from "react-loading-skeleton";
@@ -39,7 +40,7 @@ export default function Card({
           style={{ width: "18rem" }}
           onClick={handleClick}
         >
-          <img
+          <Image
             src={image}
             width={180}
             height={180}

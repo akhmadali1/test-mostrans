@@ -1,15 +1,14 @@
-import { useState, useEffect } from "react";
-import queryCharacter from "@/pages/api/character";
+import React, { useState, useEffect } from "react";
+import { useCharactersListByLocationID } from "@/pages/api/character";
 import FirstSection from "@/components/FirstSection";
 import { useRecoilState } from "recoil";
 import { searchInputState } from "@/lib/recoil";
 import Card from "@/components/Card";
 
 export default function Home() {
-  const { getCharactersListByLocationID } = queryCharacter();
   const [searchInput, setSearchInput] = useRecoilState(searchInputState);
   const parsedSearchInput = parseInt(searchInput);
-  const { loading, data } = getCharactersListByLocationID(parsedSearchInput);
+  const { loading, data } = useCharactersListByLocationID(parsedSearchInput);
   const [showCards, setShowCards] = useState(false);
 
   useEffect(() => {
@@ -39,22 +38,23 @@ export default function Home() {
         >
           {!showCards
             ? Array.from({ length: 4 }).map((_, index) => (
-                <Card
-                  skeletonFlag={true}
-                  id={index}
-                />
+                <React.Fragment key={index}>
+                  <Card skeletonFlag={true} id={index} />
+                </React.Fragment>
               ))
             : showCards &&
               data?.location?.residents?.map((character) => (
-                <Card
-                  skeletonFlag={false}
-                  id={character.id}
-                  image={character.image}
-                  name={character.name}
-                  status={character.status}
-                  type={character.type}
-                  locationName={character.location.name}
-                />
+                <React.Fragment key={character.id}>
+                  <Card
+                    skeletonFlag={false}
+                    id={character.id}
+                    image={character.image}
+                    name={character.name}
+                    status={character.status}
+                    type={character.type}
+                    locationName={character.location.name}
+                  />
+                </React.Fragment>
               ))}
         </div>
       </div>

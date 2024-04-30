@@ -3,7 +3,7 @@ import { searchInputState } from "@/lib/recoil";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import queryLocation from "@/pages/api/location";
+import {useAllLocationList} from "@/pages/api/location";
 import { useState } from "react";
 
 export default function Navbar() {
@@ -24,8 +24,7 @@ export default function Navbar() {
     }
   };
 
-  const { getAllLocationList } = queryLocation();
-  const { loading, data } = getAllLocationList();
+  const { loading, data } = useAllLocationList();
 
   return (
     <>
@@ -53,9 +52,9 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
-              <a className="nav-link" href="/" style={router.pathname === "/" ? {color:'#5AAD80'} : {}}>
+              <Link className="nav-link" href="/" style={router.pathname === "/" ? {color:'#5AAD80'} : {}}>
                 Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item active">
               <Link className="nav-link" href="https://www.figma.com/file/PSDexg0ddQ30GBGgc5XxId/RickMortyMostrans?type=design&node-id=0%3A1&mode=design&t=1cTFDob5iBVStEhq-1">
@@ -75,7 +74,7 @@ export default function Navbar() {
               </option>
               {!loading &&
                 data.locations.results.map((location) => (
-                  <option value={location.id}>{location.name}</option>
+                  <option key={location.id} value={location.id}>{location.name}</option>
                 ))}
             </select>
             <button

@@ -1,21 +1,17 @@
 import { gql, useQuery } from '@apollo/client';
-export default function queryLocation() {
-    const getAllLocationList = () => {
-        const CHARACTERS_QUERY = gql`
+
+// Custom hook to fetch all locations
+export function useAllLocationList() {
+    const LOCATIONS_QUERY = gql`
         query {
             locations {
-              results {
-                id
-                name
-              }
+                results {
+                    id
+                    name
+                }
             }
-          }
-            `;
-        const { loading, error, data } = useQuery(CHARACTERS_QUERY);
-        return { loading, error, data };
-    }
-
-    return {
-        getAllLocationList,
-    };
+        }
+    `;
+    const { loading, error, data } = useQuery(LOCATIONS_QUERY);
+    return { loading, error, data };
 }

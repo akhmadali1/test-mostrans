@@ -1,14 +1,12 @@
-import { useState, useEffect } from 'react';
-import queryCharacter from '@/pages/api/character';
+import { useCharacterByID } from "@/pages/api/character";
 import FirstSection from '@/components/FirstSection';
 import { useRouter } from 'next/router';
 
 export default function Home() {
-  const { getCharactersListByID } = queryCharacter();
   const router = useRouter()
   const routerID = router.query.id;
   const parsedSearchInput = parseInt(routerID);
-  const { loading,error, data } = getCharactersListByID(parsedSearchInput);
+  const { loading,error, data } = useCharacterByID(parsedSearchInput);
 
   return (
     <>
